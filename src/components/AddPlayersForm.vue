@@ -1,9 +1,23 @@
 <script setup lang="ts">
-console.log('from add players form component');
+import { ref } from 'vue';
+
+const newPlayer1 = ref('');
+const newPlayer2 = ref('');
+
+const emit = defineEmits<{(e: 'addNewPlayers', newPlayers: string[]): void}>();
+
+function handleSubmit(newPlayer1: string, newPlayer2: string) {
+    emit('addNewPlayers', [newPlayer1, newPlayer2])
+}
+
 </script>
 
 <template>
-    <div>Add Players Form</div>
+    <form @submit.prevent="handleSubmit(newPlayer1, newPlayer2)">
+        <label>Player name for X:<input v-model="newPlayer1" type="text" /></label><br>
+        <label>Player name for O:<input v-model="newPlayer2" type="text" /></label><br>
+        <button>Start your game!</button>
+    </form>
 </template>
 
 <style scoped>

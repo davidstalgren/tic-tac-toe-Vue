@@ -13,7 +13,7 @@ function handleSubmit(newPlayer1: string, newPlayer2: string) {
 </script>
 
 <template>
-    <form @submit.prevent="handleSubmit(newPlayer1, newPlayer2)">
+    <form class="addPlayerForm" @submit.prevent="handleSubmit(newPlayer1, newPlayer2)">
         <label>Player name for X:<input v-model="newPlayer1" type="text" /></label><br>
         <label>Player name for O:<input v-model="newPlayer2" type="text" /></label><br>
         <button>Start your game!</button>

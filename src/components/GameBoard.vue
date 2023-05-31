@@ -12,7 +12,6 @@ const stateOfTheGame = ref<IStateOfTheGame>({
 });
 
 function addNewPlayers(newPlayers: string[]) {
-    console.log('from function addNewPlayers', newPlayers[0] + ' ' + newPlayers[1]);
     stateOfTheGame.value.players.push(new Player(newPlayers[0], 'X', false));
     stateOfTheGame.value.players.push(new Player(newPlayers[1], 'O', false));
     stateOfTheGame.value.gameStarted = true;
@@ -23,13 +22,24 @@ function addNewPlayers(newPlayers: string[]) {
 <template>
     <AddPlayersForm v-if="!stateOfTheGame.gameStarted" @addNewPlayers="addNewPlayers"></AddPlayersForm>
     
-    <div v-if="stateOfTheGame.gameStarted">
-        <p>
-            Test players from player[] {{ stateOfTheGame.players[0].name }} and {{ stateOfTheGame.players[1].name }} is {{ stateOfTheGame.players[0].symbol }} and {{ stateOfTheGame.players[1].symbol }}
-        </p>
+    <div class="gameBoard" v-if="stateOfTheGame.gameStarted">
+        <div class="gameBoard__cell" v-for="item in stateOfTheGame.board"></div>
     </div>
 </template>
 
 <style scoped>
-
+.gameBoard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    outline: 2px solid grey;
+}
+.gameBoard__cell {
+    width: 15rem;
+    height: 15rem;
+    outline: 1px solid grey;
+}
+.gameBoard__cell:hover{
+    background-color:rgb(23, 25, 27);
+    cursor: pointer;
+}
 </style>

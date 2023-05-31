@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import Test from './components/test.vue';
+import GameBoard from './components/GameBoard.vue';
 </script>
 
 <template>
-  <Test></Test>
+  <GameBoard/>
 </template>
 
 <style scoped>

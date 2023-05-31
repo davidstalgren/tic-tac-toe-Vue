@@ -1,9 +1,9 @@
 <script setup lang="ts">
-console.log('test');
+console.log('from add players form component');
 </script>
 
 <template>
-    <div>test</div>
+    <div>Add Players Form</div>
 </template>
 
 <style scoped>

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import Test from './components/test.vue';
+console.log('test');
 </script>
 
 <template>
-  <Test></Test>
+    <div>test</div>
 </template>
 
 <style scoped>

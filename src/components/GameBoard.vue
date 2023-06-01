@@ -36,14 +36,11 @@ function makeMove(i: number) {
         };
     };
     stateOfTheGame.value.winner = checkForWinner(stateOfTheGame.value.board);
+    stateOfTheGame.value.tiedGame = checkForTiedGame();
 
-    const calculatedLength = stateOfTheGame.value.board.filter(v => v == '').length
-    console.log(calculatedLength);
+    console.log(stateOfTheGame.value);
     
-    if(stateOfTheGame.value.winner === null && calculatedLength === 0) {
-        stateOfTheGame.value.tiedGame = true;
-        console.log('we have a tie', stateOfTheGame.value.tiedGame);  
-    };
+
 };
 
 function checkForWinner(board: string[]) {
@@ -62,11 +59,34 @@ function checkForWinner(board: string[]) {
     for (let i = 0; i < winnerCombos.length; i++) {
         const [a, b, c] = winnerCombos[i];
         if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+
+            stateOfTheGame.value.playerTurn = 'X';
+
             return board[a]
         };
     };
     return null;
 };
+
+function checkForTiedGame() {
+    const calculatedLength = stateOfTheGame.value.board.filter(v => v == '').length;
+    
+    if(stateOfTheGame.value.winner === null && calculatedLength === 0) {
+        console.log('true tie triggered');
+        return true;
+        
+    } else {
+        console.log('false tie triggered');
+        return false;
+    };  
+};
+
+function resetGame() {
+    stateOfTheGame.value.board = ['', '', '', '', '', '', '', '', ''];
+    stateOfTheGame.value.playerTurn = 'X';
+    stateOfTheGame.value.winner = null;
+    stateOfTheGame.value.tiedGame = false;
+}
 
 </script>
 
@@ -76,7 +96,11 @@ function checkForWinner(board: string[]) {
     </header>
     <AddPlayersForm v-if="!stateOfTheGame.gameStarted" @addNewPlayers="addNewPlayers"></AddPlayersForm>
     <main v-else="stateOfTheGame.gameStarted">
-        <span v-if="!stateOfTheGame.winner" class="playersturn">It's {{ stateOfTheGame.playerTurn }} turn</span>
+        <span v-if="!stateOfTheGame.winner && !stateOfTheGame.tiedGame" class="playersturn">It's {{ stateOfTheGame.playerTurn }} turn</span>
+        <div v-else-if="stateOfTheGame.tiedGame" class="tied">
+            <span>"It's a tied game!!!</span><br>
+            <span>Try again!</span>
+        </div>
         <div v-else class="winner">
             <span>"{{ stateOfTheGame.winner }}" is the winner!!</span><br>
             <span v-if="stateOfTheGame.winner === 'X'">Congratulations!! <br><span class="animated">{{ stateOfTheGame.players[0].name }}</span></span>
@@ -86,6 +110,11 @@ function checkForWinner(board: string[]) {
             <div class="gameBoard__cell" v-for="(cell, i) in stateOfTheGame.board" @click="makeMove(i)">
             <span>{{ stateOfTheGame.board[i] }}</span>
             </div>
+        </div>
+        <div class="button__container">
+            <button @click="resetGame">Retry</button>
+            <button>Score</button>
+            <button>Quit</button>
         </div>
     </main>
     <footer>
@@ -110,6 +139,11 @@ main {
     margin-bottom: 2rem;
 }
 .winner {
+    display: block;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+.tied {
     display: block;
     font-size: 2.5rem;
     margin-bottom: 1rem;
@@ -154,6 +188,10 @@ main {
 .gameBoard__cell:hover{
     background-color:rgb(23, 25, 27);
     cursor: pointer;
+}
+
+.button__container > button {
+    margin: 1rem;
 }
 
 footer {

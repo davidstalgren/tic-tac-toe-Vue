@@ -37,8 +37,12 @@ function makeMove(i: number) {
     };
     stateOfTheGame.value.winner = checkForWinner(stateOfTheGame.value.board);
 
-    if(stateOfTheGame.value.winner) {
-        console.log('we have a winner and it is!!!', stateOfTheGame.value.winner);  
+    const calculatedLength = stateOfTheGame.value.board.filter(v => v == '').length
+    console.log(calculatedLength);
+    
+    if(stateOfTheGame.value.winner === null && calculatedLength === 0) {
+        stateOfTheGame.value.tiedGame = true;
+        console.log('we have a tie', stateOfTheGame.value.tiedGame);  
     };
 };
 

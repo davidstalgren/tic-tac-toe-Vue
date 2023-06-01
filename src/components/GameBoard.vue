@@ -86,7 +86,13 @@ function resetGame() {
     stateOfTheGame.value.playerTurn = 'X';
     stateOfTheGame.value.winner = null;
     stateOfTheGame.value.tiedGame = false;
-}
+};
+
+function quitGame() {
+    stateOfTheGame.value.players = [];
+    stateOfTheGame.value.gameStarted = false;
+    resetGame();    
+};
 
 </script>
 
@@ -114,7 +120,7 @@ function resetGame() {
         <div class="button__container">
             <button @click="resetGame">Retry</button>
             <button>Score</button>
-            <button>Quit</button>
+            <button @click="quitGame">Quit</button>
         </div>
     </main>
     <footer>

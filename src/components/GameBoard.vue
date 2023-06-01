@@ -9,7 +9,8 @@ const stateOfTheGame = ref<IStateOfTheGame>({
     board: ['', '', '', '', '', '', '', '', ''],
     playerTurn: 'X',
     gameStarted: false,
-    winner: null
+    winner: null,
+    tiedGame: false
 });
 
 function addNewPlayers(newPlayers: string[]) {
@@ -72,7 +73,11 @@ function checkForWinner(board: string[]) {
     <AddPlayersForm v-if="!stateOfTheGame.gameStarted" @addNewPlayers="addNewPlayers"></AddPlayersForm>
     <main v-else="stateOfTheGame.gameStarted">
         <span v-if="!stateOfTheGame.winner" class="playersturn">It's {{ stateOfTheGame.playerTurn }} turn</span>
-        <span v-else class="winner"> "{{ stateOfTheGame.winner }}" is the winner!!</span>
+        <div v-else class="winner">
+            <span>"{{ stateOfTheGame.winner }}" is the winner!!</span><br>
+            <span v-if="stateOfTheGame.winner === 'X'">Congratulations!! <br><span class="animated">{{ stateOfTheGame.players[0].name }}</span></span>
+            <span v-if="stateOfTheGame.winner === 'O'">Congratulations!! <br><span class="animated">{{ stateOfTheGame.players[1].name }}</span></span>
+        </div><br>
         <div class="gameBoard">
             <div class="gameBoard__cell" v-for="(cell, i) in stateOfTheGame.board" @click="makeMove(i)">
             <span>{{ stateOfTheGame.board[i] }}</span>
@@ -89,23 +94,52 @@ header {
     position: fixed;
     top: 0;
 }
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .playersturn {
     display: block;
-    font-size: 3rem;
+    font-size: 2.5rem;
     margin-bottom: 2rem;
 }
 .winner {
     display: block;
-    font-size: 3rem;
-    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.animated {
+  text-align: center;
+  font-style: italic;
+  font-weight: bold;  
+  
+  background: linear-gradient(to right, rgba(255, 255, 255, 0.87) 20%, #FF0 40%, #FF0 60%, rgba(255, 255, 255, 0.87) 80%);
+  background-size: 200% auto;
+  
+  color: #000;
+  background-clip: text;
+  text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  
+  animation: shine 1s linear infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
 }
 .gameBoard {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    width: 30rem;
+    grid-template-columns: repeat(3, 10rem);
     outline: 2px solid grey;
 }
 .gameBoard__cell {
-    width: 10rem;
     height: 10rem;
     outline: 1px solid grey;
     display: flex;

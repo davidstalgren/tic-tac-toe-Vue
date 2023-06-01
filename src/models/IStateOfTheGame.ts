@@ -5,5 +5,6 @@ export interface IStateOfTheGame {
     board: string[],
     playerTurn: string,
     gameStarted: boolean,
-    winner: string | null
+    winner: string | null,
+    tiedGame: boolean
 }

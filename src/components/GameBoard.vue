@@ -67,7 +67,6 @@ function getSavedStateFromLocalStorage() {
 };
 
 function checkForWinner(board: string[]) {
-    console.log('checkForWinner was invoked', board);
     const winnerCombos = [
         [0, 1 ,2],
         [3, 4 ,5],
@@ -95,11 +94,8 @@ function checkForTiedGame() {
     const calculatedLength = stateOfTheGame.value.board.filter(v => v == '').length;
     
     if(stateOfTheGame.value.winner === null && calculatedLength === 0) {
-        console.log('true tie triggered');
         return true;
-        
     } else {
-        console.log('false tie triggered');
         return false;
     };  
 };

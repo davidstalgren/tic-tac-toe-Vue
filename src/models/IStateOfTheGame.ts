@@ -6,5 +6,6 @@ export interface IStateOfTheGame {
     playerTurn: string,
     gameStarted: boolean,
     winner: string | null,
-    tiedGame: boolean
+    tiedGame: boolean,
+    showScore: boolean
 }

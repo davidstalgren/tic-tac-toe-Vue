@@ -26,6 +26,7 @@ input {
 }
 
 button {
-    margin-top: 1rem;
+    margin: 1rem;
+    border: 1px solid gray;
 }
 </style>

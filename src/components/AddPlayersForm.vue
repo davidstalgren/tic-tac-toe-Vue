@@ -21,12 +21,17 @@ function handleSubmit(newPlayer1: string, newPlayer2: string) {
 </template>
 
 <style scoped>
+
+.addPlayerForm {
+    margin-top: 5rem;
+}
 input {
     margin-bottom: 1rem;
 }
 
 button {
     margin: 1rem;
-    border: 1px solid gray;
+    outline: 1px solid gray;
+    color: rgba(255, 255, 255, 0.87);
 }
 </style>

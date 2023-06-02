@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { Player } from '../models/Player';
 
 interface ScoreProps {
@@ -71,6 +70,7 @@ h3 {
 
 button {
     margin: 1rem;
-    border: 1px solid gray;
+    outline: 1px solid gray;
+    color: rgba(255, 255, 255, 0.87);
 }
 </style>

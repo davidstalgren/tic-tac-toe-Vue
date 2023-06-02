@@ -14,8 +14,8 @@ Denna mall innehåller ett tomt vue-projekt baserat på typescript. Er uppgift �
 
 ## Betyg VG
 
-- Använda minst tre komponenter för er lösning
-- Spara poänghistorik för spelarna
-- Kunna visa poängstatistiken
-- Kunna stänga webbläsaren och komma tillbaka där spelet avbröts
-- Kunna nollställa statistik och börja om med nya spelare
+- Använda minst tre komponenter för er lösning - DONE
+- Spara poänghistorik för spelarna - DONE
+- Kunna visa poängstatistiken - DONE
+- Kunna stänga webbläsaren och komma tillbaka där spelet avbröts - DONE
+- Kunna nollställa statistik och börja om med nya spelare - DONE

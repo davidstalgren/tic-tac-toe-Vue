@@ -67,7 +67,6 @@ function getSavedStateFromLocalStorage() {
 };
 
 function checkForWinner(board: string[]) {
-    console.log('checkForWinner was invoked', board);
     const winnerCombos = [
         [0, 1 ,2],
         [3, 4 ,5],
@@ -95,11 +94,8 @@ function checkForTiedGame() {
     const calculatedLength = stateOfTheGame.value.board.filter(v => v == '').length;
     
     if(stateOfTheGame.value.winner === null && calculatedLength === 0) {
-        console.log('true tie triggered');
         return true;
-        
     } else {
-        console.log('false tie triggered');
         return false;
     };  
 };
@@ -109,6 +105,15 @@ function resetGame() {
     stateOfTheGame.value.playerTurn = 'X';
     stateOfTheGame.value.winner = null;
     stateOfTheGame.value.tiedGame = false;
+};
+
+function switchPlayer() {
+    
+    if (stateOfTheGame.value.playerTurn === 'X') {
+        stateOfTheGame.value.playerTurn = 'O';
+    } else if (stateOfTheGame.value.playerTurn === 'O') {
+        stateOfTheGame.value.playerTurn = 'X';
+    };
 };
 
 function showScoreToggle() {
@@ -146,31 +151,30 @@ function quitGame() {
         </div><br>
         <div class="gameBoard">
             <div class="gameBoard__cell" v-for="(cell, i) in stateOfTheGame.board" @click="makeMove(i)">
-            <span>{{ stateOfTheGame.board[i] }}</span>
+                <span>{{ stateOfTheGame.board[i] }}</span>
             </div>
         </div>
         <div class="button__container">
             <button @click="resetGame">Retry</button>
+            <button @click="switchPlayer">Switch player</button>
             <button @click="showScoreToggle">Score</button>
             <button @click="quitGame">Quit</button>
         </div>
         <ScoreBoard v-show="stateOfTheGame.showScore" :players="stateOfTheGame.players" @closeScore="showScoreToggle"></ScoreBoard>
     </main>
     <footer>
-        <span>Made by David in Vue for a school project</span>
+        <span>Made by David in Vue for a school assignment.</span>
     </footer>
 </template>
 
 <style scoped>
 header {
     background-color: #242424;
-    position: fixed;
-    top: 0;
 }
 
 main {
     background-color: #242424;
-    margin-top: 6rem;
+    margin-top: 4rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -200,8 +204,8 @@ main {
   background-size: 200% auto;
   
   color: #000;
-  background-clip: text;
-  text-fill-color: transparent;
+  background-clip: text;/* 
+  text-fill-color: transparent; */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   
@@ -230,17 +234,23 @@ main {
 }
 .gameBoard__cell:hover{
     background-color:rgb(23, 25, 27);
+    outline: 1px solid #646cff;
     cursor: pointer;
+    transition: all ease-in-out 0.25s;
 }
 
 .button__container > button {
     margin: 1rem;
-    border: 1px solid gray;
+    outline: 1px solid gray;
+    color: rgba(255, 255, 255, 0.87);
 }
 
 footer {
     position: fixed;
     bottom: 0;
-    text-align: right;
+    right: 0;
+    margin-bottom: 0.5rem;
+    margin-right: 0.5rem;
+    font-style: italic;
 }
 </style>

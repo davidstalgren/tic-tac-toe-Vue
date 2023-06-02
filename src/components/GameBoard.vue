@@ -107,6 +107,15 @@ function resetGame() {
     stateOfTheGame.value.tiedGame = false;
 };
 
+function switchPlayer() {
+    
+    if (stateOfTheGame.value.playerTurn === 'X') {
+        stateOfTheGame.value.playerTurn = 'O';
+    } else if (stateOfTheGame.value.playerTurn === 'O') {
+        stateOfTheGame.value.playerTurn = 'X';
+    };
+};
+
 function showScoreToggle() {
     if (stateOfTheGame.value.showScore) {
         stateOfTheGame.value.showScore = false;
@@ -142,11 +151,12 @@ function quitGame() {
         </div><br>
         <div class="gameBoard">
             <div class="gameBoard__cell" v-for="(cell, i) in stateOfTheGame.board" @click="makeMove(i)">
-            <span>{{ stateOfTheGame.board[i] }}</span>
+                <span>{{ stateOfTheGame.board[i] }}</span>
             </div>
         </div>
         <div class="button__container">
             <button @click="resetGame">Retry</button>
+            <button @click="switchPlayer">Switch player</button>
             <button @click="showScoreToggle">Score</button>
             <button @click="quitGame">Quit</button>
         </div>

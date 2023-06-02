@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import AddPlayersForm from './AddPlayersForm.vue';
 import ScoreBoard from './ScoreBoard.vue';
 import { IStateOfTheGame } from '../models/IStateOfTheGame';
@@ -13,6 +13,10 @@ const stateOfTheGame = ref<IStateOfTheGame>({
     winner: null,
     tiedGame: false,
     showScore: false
+});
+
+onMounted(() => {
+    getSavedStateFromLocalStorage();
 });
 
 function addNewPlayers(newPlayers: string[]) {
@@ -47,6 +51,19 @@ function makeMove(i: number) {
     };
     
     stateOfTheGame.value.tiedGame = checkForTiedGame();
+    saveStateToLocalStorage();
+};
+
+function saveStateToLocalStorage() {
+    localStorage.setItem('savedState', JSON.stringify(stateOfTheGame.value));
+};
+
+function getSavedStateFromLocalStorage() {
+    const savedState = localStorage.getItem('savedState');
+
+    if (savedState) {
+        stateOfTheGame.value = JSON.parse(savedState);
+    };  
 };
 
 function checkForWinner(board: string[]) {
@@ -105,7 +122,8 @@ function showScoreToggle() {
 function quitGame() {
     stateOfTheGame.value.players = [];
     stateOfTheGame.value.gameStarted = false;
-    resetGame();    
+    localStorage.removeItem('savedState');
+    resetGame();
 };
 
 </script>

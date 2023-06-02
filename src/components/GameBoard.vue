@@ -163,20 +163,18 @@ function quitGame() {
         <ScoreBoard v-show="stateOfTheGame.showScore" :players="stateOfTheGame.players" @closeScore="showScoreToggle"></ScoreBoard>
     </main>
     <footer>
-        <span>Made by David in Vue for a school project</span>
+        <span>Made by David in Vue for a school assignment.</span>
     </footer>
 </template>
 
 <style scoped>
 header {
     background-color: #242424;
-    position: fixed;
-    top: 0;
 }
 
 main {
     background-color: #242424;
-    margin-top: 6rem;
+    margin-top: 4rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -206,8 +204,8 @@ main {
   background-size: 200% auto;
   
   color: #000;
-  background-clip: text;
-  text-fill-color: transparent;
+  background-clip: text;/* 
+  text-fill-color: transparent; */
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   
@@ -236,17 +234,23 @@ main {
 }
 .gameBoard__cell:hover{
     background-color:rgb(23, 25, 27);
+    outline: 1px solid #646cff;
     cursor: pointer;
+    transition: all ease-in-out 0.25s;
 }
 
 .button__container > button {
     margin: 1rem;
-    border: 1px solid gray;
+    outline: 1px solid gray;
+    color: rgba(255, 255, 255, 0.87);
 }
 
 footer {
     position: fixed;
     bottom: 0;
-    text-align: right;
+    right: 0;
+    margin-bottom: 0.5rem;
+    margin-right: 0.5rem;
+    font-style: italic;
 }
 </style>

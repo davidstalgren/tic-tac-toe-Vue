@@ -70,6 +70,7 @@ h3 {
 
 button {
     margin: 1rem;
-    border: 1px solid gray;
+    outline: 1px solid gray;
+    color: rgba(255, 255, 255, 0.87);
 }
 </style>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import AddPlayersForm from './AddPlayersForm.vue';
+import ScoreBoard from './ScoreBoard.vue';
 import { IStateOfTheGame } from '../models/IStateOfTheGame';
 import { Player } from '../models/Player';
 
@@ -10,12 +11,13 @@ const stateOfTheGame = ref<IStateOfTheGame>({
     playerTurn: 'X',
     gameStarted: false,
     winner: null,
-    tiedGame: false
+    tiedGame: false,
+    showScore: false
 });
 
 function addNewPlayers(newPlayers: string[]) {
-    stateOfTheGame.value.players.push(new Player(newPlayers[0], 'X', false));
-    stateOfTheGame.value.players.push(new Player(newPlayers[1], 'O', false));
+    stateOfTheGame.value.players.push(new Player(newPlayers[0], 'X', 0));
+    stateOfTheGame.value.players.push(new Player(newPlayers[1], 'O', 0));
     stateOfTheGame.value.gameStarted = true;
 }
 
@@ -35,12 +37,16 @@ function makeMove(i: number) {
             stateOfTheGame.value.playerTurn = 'X';
         };
     };
+
     stateOfTheGame.value.winner = checkForWinner(stateOfTheGame.value.board);
-    stateOfTheGame.value.tiedGame = checkForTiedGame();
 
-    console.log(stateOfTheGame.value);
+    if (stateOfTheGame.value.winner === 'X') {
+        stateOfTheGame.value.players[0].score++;
+    } else if (stateOfTheGame.value.winner === 'O') {
+        stateOfTheGame.value.players[1].score++;
+    };
     
-
+    stateOfTheGame.value.tiedGame = checkForTiedGame();
 };
 
 function checkForWinner(board: string[]) {
@@ -88,6 +94,14 @@ function resetGame() {
     stateOfTheGame.value.tiedGame = false;
 };
 
+function showScoreToggle() {
+    if (stateOfTheGame.value.showScore) {
+        stateOfTheGame.value.showScore = false;
+    } else {
+        stateOfTheGame.value.showScore = true;
+    };
+};
+
 function quitGame() {
     stateOfTheGame.value.players = [];
     stateOfTheGame.value.gameStarted = false;
@@ -102,7 +116,7 @@ function quitGame() {
     </header>
     <AddPlayersForm v-if="!stateOfTheGame.gameStarted" @addNewPlayers="addNewPlayers"></AddPlayersForm>
     <main v-else="stateOfTheGame.gameStarted">
-        <span v-if="!stateOfTheGame.winner && !stateOfTheGame.tiedGame" class="playersturn">It's {{ stateOfTheGame.playerTurn }} turn</span>
+        <span v-if="!stateOfTheGame.winner && !stateOfTheGame.tiedGame" class="playersturn">It's "{{ stateOfTheGame.playerTurn }}" turn</span>
         <div v-else-if="stateOfTheGame.tiedGame" class="tied">
             <span>"It's a tied game!!!</span><br>
             <span>Try again!</span>
@@ -119,9 +133,10 @@ function quitGame() {
         </div>
         <div class="button__container">
             <button @click="resetGame">Retry</button>
-            <button>Score</button>
+            <button @click="showScoreToggle">Score</button>
             <button @click="quitGame">Quit</button>
         </div>
+        <ScoreBoard v-show="stateOfTheGame.showScore" :players="stateOfTheGame.players" @closeScore="showScoreToggle"></ScoreBoard>
     </main>
     <footer>
         <span>Made by David in Vue for a school project</span>
@@ -130,28 +145,31 @@ function quitGame() {
 
 <style scoped>
 header {
+    background-color: #242424;
     position: fixed;
     top: 0;
 }
 
 main {
+    background-color: #242424;
+    margin-top: 6rem;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 .playersturn {
     display: block;
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
 }
 .winner {
     display: block;
-    font-size: 2.5rem;
+    font-size: 1.5rem;
     margin-bottom: 1rem;
 }
 .tied {
     display: block;
-    font-size: 2.5rem;
+    font-size: 1.5rem;
     margin-bottom: 1rem;
 }
 
@@ -178,6 +196,7 @@ main {
   }
 }
 .gameBoard {
+    background-color: #242424;
     display: grid;
     width: 30rem;
     grid-template-columns: repeat(3, 10rem);
@@ -198,6 +217,7 @@ main {
 
 .button__container > button {
     margin: 1rem;
+    border: 1px solid gray;
 }
 
 footer {
